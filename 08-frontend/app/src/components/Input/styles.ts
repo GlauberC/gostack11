@@ -1,6 +1,14 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-export const Container = styled.div`
+import Tooltip from '../Tooltip';
+
+interface ContainerProps {
+  isFocused: boolean;
+  isFilled: boolean;
+  isErrored: boolean;
+}
+
+export const Container = styled.div<ContainerProps>`
   background: #232129;
   border-radius: 10px;
   border: 2px solid #232129;
@@ -13,6 +21,26 @@ export const Container = styled.div`
   & + div {
     margin-top: 8px;
   }
+  ${(props) =>
+    props.isErrored &&
+    css`
+      border-color: #c53030;
+    `}
+
+  ${(props) =>
+    props.isFocused &&
+    css`
+      color: #ff9000;
+      border-color: #ff9000;
+    `}
+
+  ${(props) =>
+    props.isFilled &&
+    css`
+      color: #ff9000;
+    `}
+
+
 
   input {
     color: #f4ede8;
@@ -22,9 +50,35 @@ export const Container = styled.div`
     &::placeholder {
       color: #666360;
     }
+
+    &:-webkit-autofill {
+      /* Ajeitar o Autocomplete no chrome  */
+
+      font: inherit;
+      -webkit-box-shadow: 0 0 0 30px #232129 inset;
+      -webkit-text-fill-color: #f4ede8 !important;
+      font: 16px 'Roboto Slab', serif;
+    }
   }
 
   svg {
     margin-right: 16px;
+  }
+`;
+
+export const Error = styled(Tooltip)`
+  height: 20px;
+  margin-left: 16px;
+  svg {
+    margin: 0;
+  }
+
+  span {
+    background: #c53030;
+    color: #fff;
+
+    &::before {
+      border-color: #c53030 transparent;
+    }
   }
 `;
